@@ -1,4 +1,4 @@
-package com.rafal.sudoku;
+package com.rafal.sudoku.solver;
 
 import java.util.ArrayList;
 import java.util.stream.IntStream;
@@ -12,12 +12,15 @@ public class SudokuSolver {
     private ArrayList<Integer> fixedNumbers;
 
     public SudokuSolver(int[][] sudoku) {
-        this.sudoku = sudoku;
-        fixedNumbers = new ArrayList<>();
         sudokuLength = sudoku[0].length;
+        this.sudoku = new int[sudokuLength][sudokuLength];
+        for (int i = 0; i < sudokuLength; i++) {
+            System.arraycopy(sudoku[i], 0, this.sudoku[i], 0, sudokuLength);
+        }
+        fixedNumbers = new ArrayList<>();
     }
 
-    int[][] solve() throws CantSolveException {
+    public int[][] solve() throws CantSolveException {
         getFixedNumbers();
         for (int i = 0; i < sudokuLength; i++) {
             for (int j = 0; j < sudokuLength; ) {
@@ -88,9 +91,7 @@ public class SudokuSolver {
         int[] square = new int[sudokuLength];
 
         for (int ii = 0; ii < SUDOKU_SQUARE_SIZE; ii++) {
-            for (int jj = 0; jj < SUDOKU_SQUARE_SIZE; jj++) {
-                square[ii * SUDOKU_SQUARE_SIZE + jj] = sudoku[squareRow * SUDOKU_SQUARE_SIZE + ii][squareColumn * SUDOKU_SQUARE_SIZE + jj];
-            }
+            System.arraycopy(sudoku[squareRow * SUDOKU_SQUARE_SIZE + ii], squareColumn * SUDOKU_SQUARE_SIZE, square, ii * SUDOKU_SQUARE_SIZE, SUDOKU_SQUARE_SIZE);
         }
         for (int n : square) {
             if (n == value) {
