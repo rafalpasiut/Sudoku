@@ -17,7 +17,7 @@ public class SudokuSolver {
     public SudokuSolver() {
     }
 
-    public int[][] solve(int[][] sudoku) throws CantSolveException {
+    public int[][] solve(int[][] sudoku) throws CantSolveException {    //TODO add time execution watcher which breaks calculations after timeout
         initSudoku(sudoku);
         getFixedNumbers();
         for (int i = 0; i < sudokuLength; i++) {

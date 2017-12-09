@@ -15,7 +15,7 @@ import java.util.Arrays;
 public class SudokuSolverTestSuite {
 
     @Test
-    public void testSudokuSolving() {
+    public void testSudokuSolvingHardestInTheWorld() {
 
         ApplicationContext context = new AnnotationConfigApplicationContext("com.rafal.sudoku");
         SudokuSolver solver = context.getBean(SudokuSolver.class);
@@ -52,6 +52,55 @@ public class SudokuSolverTestSuite {
             System.out.println("Can`t solve your sudoku");
         }
 
+        //Then
+        Assert.assertTrue(Arrays.deepEquals(result, sudokuAnswer));
+    }
+
+    @Test
+    public void testSudokuSolvingAgainstBruteForce() {
+
+        ApplicationContext context = new AnnotationConfigApplicationContext("com.rafal.sudoku");
+        SudokuSolver solver = context.getBean(SudokuSolver.class);
+        //Given
+        int[][] sudoku = new int[][]{
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 3, 0, 8, 5},
+                {0, 0, 1, 0, 2, 0, 0, 0, 0},
+                {0, 0, 0, 5, 0, 7, 0, 0, 0},
+                {0, 0, 4, 0, 0, 0, 1, 0, 0},
+                {0, 9, 0, 0, 0, 0, 0, 0, 0},
+                {5, 0, 0, 0, 0, 0, 0, 7, 3},
+                {0, 0, 2, 0, 1, 0, 0, 0, 0},
+                {0, 0, 0, 0, 4, 0, 0, 0, 9}
+        };
+
+        int[][] sudokuAnswer = new int[][]{
+                {9, 8, 7, 6, 5, 4, 3, 2, 1},
+                {2, 4, 6, 1, 7, 3, 9, 8, 5},
+                {3, 5, 1, 9, 2, 8, 7, 4, 6},
+                {1, 2, 8, 5, 3, 7, 6, 9, 4},
+                {6, 3, 4, 8, 9, 2, 1, 5, 7},
+                {7, 9, 5, 4, 6, 1, 8, 3, 2},
+                {5, 1, 9, 2, 8, 6, 4, 7, 3},
+                {4, 7, 2, 3, 1, 9, 5, 6, 8},
+                {8, 6, 3, 7, 4, 5, 2, 1, 9}
+        };
+
+        //When
+        long startTime = System.currentTimeMillis();
+        int[][] result = new int[][]{};
+        try {
+            result = solver.solve(sudoku);
+        } catch (CantSolveException e) {
+            System.out.println("Can`t solve your sudoku");
+        }
+        System.out.println("Resolving sudoku took: " + (System.currentTimeMillis() - startTime) + "ms");
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                System.out.print(result[i][j] + "\t");
+            }
+            System.out.println();
+        }
         //Then
         Assert.assertTrue(Arrays.deepEquals(result, sudokuAnswer));
     }
