@@ -1,8 +1,11 @@
 package com.rafal.sudoku.solver;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
+@Component
 public class SudokuSolver {
 
     private static final int SUDOKU_SQUARE_SIZE = 3;
@@ -11,16 +14,11 @@ public class SudokuSolver {
     private int sudokuLength;
     private ArrayList<Integer> fixedNumbers;
 
-    public SudokuSolver(int[][] sudoku) {
-        sudokuLength = sudoku[0].length;
-        this.sudoku = new int[sudokuLength][sudokuLength];
-        for (int i = 0; i < sudokuLength; i++) {
-            System.arraycopy(sudoku[i], 0, this.sudoku[i], 0, sudokuLength);
-        }
-        fixedNumbers = new ArrayList<>();
+    public SudokuSolver() {
     }
 
-    public int[][] solve() throws CantSolveException {
+    public int[][] solve(int[][] sudoku) throws CantSolveException {
+        initSudoku(sudoku);
         getFixedNumbers();
         for (int i = 0; i < sudokuLength; i++) {
             for (int j = 0; j < sudokuLength; ) {
@@ -40,7 +38,7 @@ public class SudokuSolver {
                 }
             }
         }
-        return sudoku;
+        return this.sudoku;
     }
 
     private void getFixedNumbers() {
@@ -115,5 +113,14 @@ public class SudokuSolver {
                 return new int[]{i, j};
             }
         }
+    }
+
+    private void initSudoku(int[][] sudoku) {
+        sudokuLength = sudoku[0].length;
+        this.sudoku = new int[sudokuLength][sudokuLength];
+        for (int i = 0; i < sudokuLength; i++) {
+            System.arraycopy(sudoku[i], 0, this.sudoku[i], 0, sudokuLength);
+        }
+        fixedNumbers = new ArrayList<>();
     }
 }

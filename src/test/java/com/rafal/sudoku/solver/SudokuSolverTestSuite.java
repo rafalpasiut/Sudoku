@@ -2,13 +2,23 @@ package com.rafal.sudoku.solver;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class SudokuSolverTestSuite {
 
     @Test
     public void testSudokuSolving() {
+
+        ApplicationContext context = new AnnotationConfigApplicationContext("com.rafal.sudoku");
+        SudokuSolver solver = context.getBean(SudokuSolver.class);
         //Given
         int[][] sudoku = new int[][]{
                 {8, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -34,12 +44,10 @@ public class SudokuSolverTestSuite {
                 {7, 9, 6, 3, 1, 8, 4, 5, 2}
         };
 
-        SudokuSolver solver = new SudokuSolver(sudoku);
-
         //When
         int[][] result = new int[][]{};
         try {
-            result = solver.solve();
+            result = solver.solve(sudoku);
         } catch (CantSolveException e) {
             System.out.println("Can`t solve your sudoku");
         }
