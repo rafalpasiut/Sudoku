@@ -1,9 +1,7 @@
 package com.rafal.sudoku.solver;
 
 import com.rafal.sudoku.Sudoku;
-import org.springframework.stereotype.Component;
 
-@Component
 public class SudokuSolver {
 
     private Sudoku sudoku;
