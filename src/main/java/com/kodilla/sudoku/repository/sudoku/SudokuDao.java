@@ -1,9 +1,9 @@
-package com.kodilla.sudoku.repository;
+package com.kodilla.sudoku.repository.sudoku;
 
 import org.springframework.data.repository.CrudRepository;
 
 
-public interface SudokuRepository extends CrudRepository<SudokuEntity, Integer> {
+public interface SudokuDao extends CrudRepository<SudokuEntity, Integer> {
 
     @Override
     SudokuEntity save(SudokuEntity sudoku);
